@@ -9,28 +9,37 @@
 'use strict';
 
 $(document).ready(function() {
-
   var snapshotButton = document.querySelector('button#snapshot');
   var filterSelect = document.querySelector('select#filter');
-
-  // Put variables in global scope to make them available to the browser console.
   var video = window.video = document.querySelector('video');
   var canvas = window.canvas = document.querySelector('canvas');
-  var beardImage = window.beardImage = document.querySelector('img');
-  canvas.width = 640;
-  canvas.height = 480;
-  // beardImage.width = 192;
-  // beardImage.height = 216;
+
+  canvas.width = video.clientWidth;
+  canvas.height = video.clientHeight + 160;
+
+  $(window).resize(function() {
+    canvas.width = video.clientWidth;
+    canvas.height = video.clientHeight + 160;
+  });
 
   snapshotButton.onclick = function() {
-    var beardImageWidth = document.getElementsByClassName("beard-image")[0].clientWidth;
-    var beardImageHeight = document.getElementsByClassName("beard-image")[0].clientHeight;
-    var beardCanvasWidth = document.getElementById("beard-canvas").clientWidth;
-    var beardCanvasHeight = document.getElementById("beard-canvas").clientHeight;
-    console.log(beardCanvasWidth);
+    var beardImage = document.querySelector('img');
+    var beardVideo = document.querySelector('video');
+
+    var beardCanvasWidth = beardVideo.clientWidth;
+    var beardCanvasHeight = beardVideo.clientHeight;
+
+    var beardImageWidth = beardImage.clientWidth;
+    var beardImageHeight = beardImage.clientHeight;
+
+    var beardXPosition = (beardCanvasWidth - beardImageWidth) / 2;
+    var beardYPosition = (beardCanvasHeight - beardImageHeight) * 0.5 + 11;
+
+    canvas.height = beardVideo.clientHeight;
     canvas.className = filterSelect.value;
-    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width,canvas.height);
-    canvas.getContext('2d').drawImage(beardImage, 0, 0, beardImageWidth, beardImageHeight);
+    
+    canvas.getContext('2d').drawImage(beardVideo, 0, 0, beardCanvasWidth, beardCanvasHeight);
+    canvas.getContext('2d').drawImage(beardImage, beardXPosition, beardYPosition, beardImageWidth, beardImageHeight);
   };
 
   filterSelect.onchange = function() {
