@@ -14,13 +14,16 @@ var filterSelect = document.querySelector('select#filter');
 // Put variables in global scope to make them available to the browser console.
 var video = window.video = document.querySelector('video');
 var canvas = window.canvas = document.querySelector('canvas');
-canvas.width = 480;
-canvas.height = 360;
+var beardImage = window.beardImage = document.querySelector('img');
+canvas.width = 640;
+canvas.height = 480;
+beardImage.width = 192;
+beardImage.height = 216;
 
 snapshotButton.onclick = function() {
   canvas.className = filterSelect.value;
-  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width,
-      canvas.height);
+  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width,canvas.height);
+  canvas.getContext('2d').drawImage(beardImage, canvas.width / 2 - beardImage.width / 2 + 19, canvas.height - beardImage.height, beardImage.width, beardImage.height);
 };
 
 filterSelect.onchange = function() {
