@@ -6,14 +6,29 @@
  *  tree.
  */
 
-.beard-image {
-  width: 30%;
+#beard-video {
+  margin: 0 auto;
+  width: 100%;
   height: 100%;
   position: relative;
-  top: -15em;
-  left: 15em;
-  /*-webkit-transform: scaleX(-1);
-  transform: scaleX(-1);*/
+}
+
+video {
+  background: #222;
+  margin: 0 0 20px 0;
+  width: 100%;
+  flex: 1;
+  z-index: 1;
+}
+
+.beard-image {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    width: 30%;
+    height: auto;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .hidden {
@@ -221,14 +236,6 @@ strong {
 
 textarea {
   font-family: 'Roboto', sans-serif;
-}
-
-video {
-  background: #222;
-  margin: 0 0 20px 0;
-  width: 100%;
-  /*-webkit-transform: scaleX(-1);
-  transfor: scaleX(-1);*/
 }
 
 @media screen and (max-width: 650px) {

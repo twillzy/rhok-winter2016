@@ -8,45 +8,54 @@
 
 'use strict';
 
-var snapshotButton = document.querySelector('button#snapshot');
-var filterSelect = document.querySelector('select#filter');
+$(document).ready(function() {
 
-// Put variables in global scope to make them available to the browser console.
-var video = window.video = document.querySelector('video');
-var canvas = window.canvas = document.querySelector('canvas');
-var beardImage = window.beardImage = document.querySelector('img');
-canvas.width = 640;
-canvas.height = 480;
-beardImage.width = 192;
-beardImage.height = 216;
+  var snapshotButton = document.querySelector('button#snapshot');
+  var filterSelect = document.querySelector('select#filter');
 
-snapshotButton.onclick = function() {
-  canvas.className = filterSelect.value;
-  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width,canvas.height);
-  canvas.getContext('2d').drawImage(beardImage, canvas.width / 2 - beardImage.width / 2 + 19, canvas.height - beardImage.height, beardImage.width, beardImage.height);
-};
+  // Put variables in global scope to make them available to the browser console.
+  var video = window.video = document.querySelector('video');
+  var canvas = window.canvas = document.querySelector('canvas');
+  var beardImage = window.beardImage = document.querySelector('img');
+  canvas.width = 640;
+  canvas.height = 480;
+  // beardImage.width = 192;
+  // beardImage.height = 216;
 
-filterSelect.onchange = function() {
-  video.className = filterSelect.value;
-};
+  snapshotButton.onclick = function() {
+    var beardImageWidth = document.getElementsByClassName("beard-image")[0].clientWidth;
+    var beardImageHeight = document.getElementsByClassName("beard-image")[0].clientHeight;
+    var beardCanvasWidth = document.getElementById("beard-canvas").clientWidth;
+    var beardCanvasHeight = document.getElementById("beard-canvas").clientHeight;
+    console.log(beardCanvasWidth);
+    canvas.className = filterSelect.value;
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width,canvas.height);
+    canvas.getContext('2d').drawImage(beardImage, 0, 0, beardImageWidth, beardImageHeight);
+  };
 
-var constraints = {
-  audio: false,
-  video: true
-};
+  filterSelect.onchange = function() {
+    video.className = filterSelect.value;
+  };
 
-function successCallback(stream) {
-  window.stream = stream; // make stream available to browser console
-  video.srcObject = stream;
-}
+  var constraints = {
+    audio: false,
+    video: true
+  };
 
-function errorCallback(error) {
-  console.log('navigator.getUserMedia error: ', error);
-}
+  function successCallback(stream) {
+    window.stream = stream; // make stream available to browser console
+    video.srcObject = stream;
+  }
 
-navigator.mediaDevices.getUserMedia(
-  constraints
-).then(
-  successCallback,
-  errorCallback
-);
+  function errorCallback(error) {
+    console.log('navigator.getUserMedia error: ', error);
+  }
+
+  navigator.mediaDevices.getUserMedia(
+    constraints
+  ).then(
+    successCallback,
+    errorCallback
+  );
+
+});
